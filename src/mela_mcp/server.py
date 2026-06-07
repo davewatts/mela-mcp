@@ -44,7 +44,7 @@ def get_recipe(recipe_id: int) -> dict | None:
 
 
 @mcp.tool()
-def set_recipe_nutritional_information(
+def set_recipe_information(
     recipe_id: int,
     nutrition: str | None = None,
     notes: str | None = None,
@@ -69,7 +69,7 @@ def set_recipe_nutritional_information(
     Returns:
         Full updated recipe details or None if recipe not found
     """
-    return database.set_recipe_nutritional_information(
+    return database.set_recipe_information(
         recipe_id,
         nutrition=nutrition,
         notes=notes,
