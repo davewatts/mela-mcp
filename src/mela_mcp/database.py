@@ -1,13 +1,22 @@
 """SQLite database access for Mela recipe database."""
 
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path.home() / "Library/Group Containers/66JC38RDUD.recipes.mela/Data/Shared.sqlite"
+DB_FILENAME = os.environ.get("MELA_DATABASE_FILENAME", "Curcuma.sqlite")
+DB_PATH = Path.home() / "Library/Group Containers/66JC38RDUD.recipes.mela/Data" / DB_FILENAME
 
 
 def get_connection() -> sqlite3.Connection:
-    """Get a connection to the Mela database."""
+    """Get a connection to the Mela database.
+    
+    Uses the database file specified by the MELA_DATABASE_FILENAME environment
+    variable (defaults to "Curcuma.sqlite" if not set).
+    
+    Raises:
+        FileNotFoundError: If the database file is not found at the expected path.
+    """
     if not DB_PATH.exists():
         raise FileNotFoundError(f"Mela database not found at {DB_PATH}")
     conn = sqlite3.connect(DB_PATH, timeout=5.0)
