@@ -215,13 +215,13 @@ def list_recipes(filter: str = "all") -> list[dict]:
 
 
 def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
-    """Set the nutritional information record for a recipe.
+    """Set the nutritional information for a recipe.
 
-    Updates the nutritional information stored against an identified recipe.
+    Updates and records the nutritional information held against an identified recipe.
 
     Args:
         recipe_id: The recipe's primary key (Z_PK)
-        nutrition: The nutritional information string to record
+        nutrition: The nutritional information string to set
 
     Returns:
         Updated recipe details or None if recipe not found
