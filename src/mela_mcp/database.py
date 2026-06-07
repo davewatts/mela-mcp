@@ -214,7 +214,7 @@ def list_recipes(filter: str = "all") -> list[dict]:
         conn.close()
 
 
-def set_recipe_nutritional_information(
+def set_recipe_information(
     recipe_id: int,
     nutrition: str | None = None,
     notes: str | None = None,
