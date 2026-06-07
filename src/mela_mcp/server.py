@@ -47,7 +47,7 @@ def get_recipe(recipe_id: int) -> dict | None:
 def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
     """Set the nutritional information for a recipe.
 
-    Updates the nutritional information record held against an identified recipe.
+    Updates and records the nutritional information held against an identified recipe.
 
     Args:
         recipe_id: The recipe's ID number
