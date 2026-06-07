@@ -214,14 +214,26 @@ def list_recipes(filter: str = "all") -> list[dict]:
         conn.close()
 
 
-def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
-    """Set the nutritional information for a recipe.
+def set_recipe_nutritional_information(
+    recipe_id: int,
+    nutrition: str | None = None,
+    notes: str | None = None,
+    ingredients: str | None = None,
+    description: str | None = None,
+    instructions: str | None = None,
+) -> dict | None:
+    """Set recipe information fields.
 
-    Updates and records the nutritional information held against an identified recipe.
+    Updates and records the nutritional information, notes, ingredients, description,
+    and instructions held against an identified recipe. Only non-empty fields are updated.
 
     Args:
         recipe_id: The recipe's primary key (Z_PK)
-        nutrition: The nutritional information string to set
+        nutrition: The nutritional information string to set (optional)
+        notes: The notes string to set (optional)
+        ingredients: The ingredients string to set (optional)
+        description: The description string to set (optional)
+        instructions: The instructions string to set (optional)
 
     Returns:
         Updated recipe details or None if recipe not found
@@ -236,12 +248,36 @@ def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict |
         if not cursor.fetchone():
             return None
 
-        # Update the nutrition column
-        conn.execute(
-            "UPDATE ZRECIPEOBJECT SET ZNUTRITION = ? WHERE Z_PK = ?",
-            (nutrition, recipe_id)
-        )
-        conn.commit()
+        # Build dynamic UPDATE statement based on provided parameters
+        updates = []
+        params = []
+
+        if nutrition is not None and nutrition.strip():
+            updates.append("ZNUTRITION = ?")
+            params.append(nutrition)
+
+        if notes is not None and notes.strip():
+            updates.append("ZNOTES = ?")
+            params.append(notes)
+
+        if ingredients is not None and ingredients.strip():
+            updates.append("ZINGREDIENTS = ?")
+            params.append(ingredients)
+
+        if description is not None and description.strip():
+            updates.append("ZDESCRIPTION = ?")
+            params.append(description)
+
+        if instructions is not None and instructions.strip():
+            updates.append("ZINSTRUCTIONS = ?")
+            params.append(instructions)
+
+        # Only execute UPDATE if there are fields to update
+        if updates:
+            params.append(recipe_id)
+            update_sql = f"UPDATE ZRECIPEOBJECT SET {', '.join(updates)} WHERE Z_PK = ?"
+            conn.execute(update_sql, params)
+            conn.commit()
 
         # Return updated recipe details
         return get_recipe(recipe_id)
