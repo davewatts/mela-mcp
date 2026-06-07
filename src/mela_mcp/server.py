@@ -44,19 +44,39 @@ def get_recipe(recipe_id: int) -> dict | None:
 
 
 @mcp.tool()
-def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
-    """Set the nutritional information for a recipe.
+def set_recipe_nutritional_information(
+    recipe_id: int,
+    nutrition: str | None = None,
+    notes: str | None = None,
+    ingredients: str | None = None,
+    description: str | None = None,
+    instructions: str | None = None,
+) -> dict | None:
+    """Set recipe information for an identified recipe.
 
-    Updates and records the nutritional information held against an identified recipe.
+    Updates and records recipe information fields including nutritional information,
+    notes, ingredients, description, and instructions. Only non-empty fields are updated;
+    empty, whitespace-only, or null values will not update their corresponding columns.
 
     Args:
         recipe_id: The recipe's ID number
-        nutrition: The nutritional information string to set
+        nutrition: The nutritional information string to set (optional)
+        notes: The notes string to set (optional)
+        ingredients: The ingredients string to set (optional)
+        description: The description string to set (optional)
+        instructions: The instructions string to set (optional)
 
     Returns:
         Full updated recipe details or None if recipe not found
     """
-    return database.set_recipe_nutritional_information(recipe_id, nutrition)
+    return database.set_recipe_nutritional_information(
+        recipe_id,
+        nutrition=nutrition,
+        notes=notes,
+        ingredients=ingredients,
+        description=description,
+        instructions=instructions,
+    )
 
 
 @mcp.tool()
