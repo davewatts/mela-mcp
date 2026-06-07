@@ -212,3 +212,38 @@ def list_recipes(filter: str = "all") -> list[dict]:
         return results
     finally:
         conn.close()
+
+
+def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
+    """Set the nutritional information record for a recipe.
+
+    Updates the nutritional information stored against an identified recipe.
+
+    Args:
+        recipe_id: The recipe's primary key (Z_PK)
+        nutrition: The nutritional information string to record
+
+    Returns:
+        Updated recipe details or None if recipe not found
+    """
+    conn = get_connection()
+    try:
+        # First check if recipe exists
+        cursor = conn.execute(
+            "SELECT Z_PK FROM ZRECIPEOBJECT WHERE Z_PK = ?",
+            (recipe_id,)
+        )
+        if not cursor.fetchone():
+            return None
+
+        # Update the nutrition column
+        conn.execute(
+            "UPDATE ZRECIPEOBJECT SET ZNUTRITION = ? WHERE Z_PK = ?",
+            (nutrition, recipe_id)
+        )
+        conn.commit()
+
+        # Return updated recipe details
+        return get_recipe(recipe_id)
+    finally:
+        conn.close()
