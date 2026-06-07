@@ -29,7 +29,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
       "args": ["--directory", "<PATH-TO-THIS-REPO>", "run", "mela-mcp"],
       "env": {
         "MELA_CALENDAR_NAME": "Family",
-        "MELA_GROCERY_LIST": "Groceries"
+        "MELA_GROCERY_LIST": "Groceries",
+        "MELA_DATABASE_FILENAME": "Curcuma.sqlite"
       }
     }
   }
@@ -40,6 +41,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 - `MELA_CALENDAR_NAME`: Calendar name for meal scheduling (default: "Family")
 - `MELA_GROCERY_LIST`: Apple Reminders list name for grocery items (default: "Groceries")
+- `MELA_DATABASE_FILENAME`: Database filename to use from the Mela data directory (default: "Curcuma.sqlite")
 
 ## Tools
 
