@@ -44,6 +44,22 @@ def get_recipe(recipe_id: int) -> dict | None:
 
 
 @mcp.tool()
+def set_recipe_nutritional_information(recipe_id: int, nutrition: str) -> dict | None:
+    """Set the nutritional information for a recipe.
+
+    Updates the nutritional information record held against an identified recipe.
+
+    Args:
+        recipe_id: The recipe's ID number
+        nutrition: The nutritional information string to set
+
+    Returns:
+        Full updated recipe details or None if recipe not found
+    """
+    return database.set_recipe_nutritional_information(recipe_id, nutrition)
+
+
+@mcp.tool()
 def list_recipes(filter: str = "all") -> list[dict]:
     """List all recipes with optional filter.
 
