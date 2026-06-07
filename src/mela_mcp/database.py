@@ -3,7 +3,7 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path.home() / "Library/Group Containers/66JC38RDUD.recipes.mela/Data/Curcuma.sqlite"
+DB_PATH = Path.home() / "Library/Group Containers/66JC38RDUD.recipes.mela/Data/Shared.sqlite"
 
 
 def get_connection() -> sqlite3.Connection:
